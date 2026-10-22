@@ -21,7 +21,7 @@ export const SIDE_NPCS: NpcDef[] = [
 
 type Q = QuestDef;
 const chain = (giver: string, prefix: string, steps: Omit<Q, 'id' | 'giver' | 'main' | 'requires'>[]): Q[] =>
-  steps.map((s, i) => ({ ...s, id: `${prefix}${i + 1}`, giver, main: false, requires: i ? `${prefix}${i}` : undefined }));
+  steps.map((s, i) => ({ ...s, id: `${prefix}${i + 1}`, giver, main: false, ...(i ? { requires: `${prefix}${i}` } : {}) }));
 
 export const SIDE_QUESTS: QuestDef[] = [
   ...chain('cartographer', 'map', [
