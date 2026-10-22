@@ -629,7 +629,9 @@ export class Game {
     return ch;
   }
   say(npc: NpcDef, text: string) { this.audio.sfx("ui"); this.dialog = { npc, text, choices: this.npcChoices(npc) }; }
-  offer(npc: NpcDef, q: QuestDef) {
+  offer(npc: NpcDef, q: QuestDef, page = 0) {
+    const intro = q.intro ?? [];
+    if (page < intro.length) { this.dialog = { npc, text: intro[page]!, choices: [{ label: "Continuar…", act: () => this.offer(npc, q, page + 1) }, { label: "Agora não", act: () => this.say(npc, "Volte quando estiver pronto.") }] }; return; }
     this.dialog = {
       npc, text: q.desc + `  (Recompensa: ${q.reward.xp} XP, ${q.reward.gold} ouro${q.reward.items ? ", itens" : ""})`,
       choices: [
@@ -647,7 +649,7 @@ export class Game {
     this.audio.sfx("level");
     this.toast(`Missão concluída: ${q.title}!`, "#ffd040");
     this.afterQuest(q);
-    this.say(npc, q.id === "m6" ? "Você salvou a Árvore de Mana! Seu nome será lembrado para sempre, Herói de Mana." : "Muito bem! Aqui está sua recompensa.");
+    this.say(npc, q.id === "m6" ? "Você salvou a Árvore de Mana! Seu nome será lembrado para sempre, Herói de Mana." : q.outro ?? "Muito bem! Aqui está sua recompensa.");
     this.save();
   }
 
