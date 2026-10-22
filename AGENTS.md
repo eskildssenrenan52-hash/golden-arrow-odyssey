@@ -26,3 +26,4 @@
 - Efeitos visuais ficam em engine.ts (postFx: grading por bioma, bloom, vinheta, relâmpagos; godRays; ambientParticles; shadow). Mantêm o pixel-art sem esticar; o bloom só roda se o navegador suportar ctx.filter.
 
 - Game objective guidance lives in src/game/waypoint.ts as pure data logic (tested), the engine only draws it — keeps quest navigation testable without canvas.
+- Side questlines (NPCs with chained, dialogue-rich quests) live in src/game/sidequests.ts and are merged in data.ts; keeps them separate from the main Chronicle in story.ts.
